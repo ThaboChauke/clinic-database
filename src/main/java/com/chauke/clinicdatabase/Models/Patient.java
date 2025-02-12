@@ -1,14 +1,27 @@
 package com.chauke.clinicdatabase.Models;
 
-import java.util.Date;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class Patient {
 
     private String id;
+
+    @NotEmpty
     private String fullName;
+
+    @NotEmpty
+//    @DateTimeFormat(fallbackPatterns = "DD/MM/YYYY")
     private String dateOfBirth;
+
+    @NotEmpty
     private String phoneNumber;
+
+    @Email
     private String email;
+
+    @NotEmpty
     private String address;
 
     public Patient() { }
