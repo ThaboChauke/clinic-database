@@ -4,6 +4,7 @@ import com.chauke.clinicdatabase.Models.Patient;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
@@ -12,8 +13,9 @@ import java.util.*;
 public class PatientController {
 
     private Map<String, Patient> patientMap = new HashMap<>() {{
-        put("1", new Patient("1", "John Doe", "02/05/1998",
-                "+27846504164" ,"johndoe@gmail.com", "123 sing street"));
+        put("1", new Patient("John Doe", "02/05/1998",
+                "+27846504164" ,"johndoe@gmail.com", "123 sing street", "01020202200",
+                "Male"));
      }};
 
 
@@ -40,10 +42,10 @@ public class PatientController {
         if (patient == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/api/patients")
-    public Patient addPatient(@RequestBody Patient patient) {
-        patient.setId(UUID.randomUUID().toString());
-        patientMap.put(patient.getId(), patient);
-        return patient;
-    }
+//    @PostMapping("/api/patients")
+//    public Patient addPatient(@RequestPart("data") MultipartFile file) {
+//        patient.setId(Long.valueOf(UUID.randomUUID().toString()));
+//        patientMap.put(String.valueOf(patient.getId()), patient);
+//        return patient;
+//    }
 }

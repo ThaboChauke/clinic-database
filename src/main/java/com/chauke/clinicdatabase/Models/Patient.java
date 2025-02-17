@@ -1,38 +1,51 @@
 package com.chauke.clinicdatabase.Models;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.persistence.*;
 
+
+@Entity(name = "Patient")
+@Table(name = "patient")
 public class Patient {
 
-    private String id;
+    @Id
+    @SequenceGenerator(name = "patient_sequence", sequenceName = "patient_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patient_sequence")
+    @Column(name = "id", updatable = false)
+    private Long id;
 
-    @NotEmpty
+    @Column(name = "full_name", nullable = false, columnDefinition = "TEXT")
     private String fullName;
 
-    @NotEmpty
-//    @DateTimeFormat(fallbackPatterns = "DD/MM/YYYY")
+    @Column(name = "date_of_birth", nullable = false, columnDefinition = "TEXT")
     private String dateOfBirth;
 
-    @NotEmpty
+    @Column(name = "phone_number", columnDefinition = "TEXT")
     private String phoneNumber;
 
-    @Email
+    @Column(name = "email", columnDefinition = "TEXT", unique = true)
     private String email;
 
-    @NotEmpty
+    @Column(name = "address", columnDefinition = "TEXT")
     private String address;
+
+    @Column(name = "id_number", columnDefinition = "TEXT", unique = true, nullable = false)
+    public String idNumber;
+
+    @Column(name = "gender", columnDefinition = "TEXT", nullable = false)
+    public String gender;
 
     public Patient() { }
 
-    public Patient(String id, String fullName, String dateOfBirth, String phoneNumber, String email, String address) {
+    public Patient(String fullName, String dateOfBirth,
+                   String phoneNumber, String email, String address, String idNumber, String gender) {
+
         this.fullName = fullName;
-        this.id = id;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
+        this.idNumber = idNumber;
+        this.gender = gender;
     }
 
     public String getDateOfBirth() {
@@ -59,11 +72,11 @@ public class Patient {
         this.fullName = fullName;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -81,5 +94,19 @@ public class Patient {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", idNumber='" + idNumber + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }
