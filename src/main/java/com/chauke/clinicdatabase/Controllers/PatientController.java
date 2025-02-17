@@ -1,10 +1,11 @@
 package com.chauke.clinicdatabase.Controllers;
 
 import com.chauke.clinicdatabase.Models.Patient;
-import jakarta.validation.Valid;
+import com.chauke.clinicdatabase.Repository.PatientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
@@ -12,11 +13,12 @@ import java.util.*;
 @RestController
 public class PatientController {
 
-    private Map<String, Patient> patientMap = new HashMap<>() {{
-        put("1", new Patient("John Doe", "02/05/1998",
-                "+27846504164" ,"johndoe@gmail.com", "123 sing street", "01020202200",
-                "Male"));
-     }};
+    @Autowired
+    private final PatientRepository patientRepository;
+
+    public PatientController(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
+    }
 
 
     @GetMapping("/")
@@ -26,26 +28,27 @@ public class PatientController {
 
     @GetMapping("/api/patients")
     public Collection<Patient> getPatients() {
-        return patientMap.values();
+        return patientRepository.findAll();
     }
 
     @GetMapping("/api/patients/{id}")
-    public Patient getPatients(@PathVariable @Valid String id) {
-        Patient patient = patientMap.get(id);
-        if (patient == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        return patient;
+    public Patient getPatients(@PathVariable Long id) {
+        return patientRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found")
+        );
     }
 
     @DeleteMapping("/api/patients/{id}")
-    public void deletePatient(@PathVariable String id) {
-        Patient patient = patientMap.remove(id);
-        if (patient == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    public void deletePatient(@PathVariable Long id) {
+        if (!patientRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found");
+        }
+        patientRepository.deleteById(id);
     }
 
-//    @PostMapping("/api/patients")
-//    public Patient addPatient(@RequestPart("data") MultipartFile file) {
-//        patient.setId(Long.valueOf(UUID.randomUUID().toString()));
-//        patientMap.put(String.valueOf(patient.getId()), patient);
-//        return patient;
-//    }
+    @PostMapping("/api/patients")
+    public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
+        Patient savePatient = patientRepository.save(patient);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savePatient);
+    }
 }
