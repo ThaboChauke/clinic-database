@@ -2,6 +2,9 @@ package com.chauke.clinicdatabase.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 
 @Entity(name = "Patient")
 @Table(name = "patient")
@@ -16,8 +19,8 @@ public class Patient {
     @Column(name = "full_name", nullable = false, columnDefinition = "TEXT")
     private String fullName;
 
-    @Column(name = "date_of_birth", nullable = false, columnDefinition = "TEXT")
-    private String dateOfBirth;
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDate dateOfBirth;
 
     @Column(name = "phone_number", columnDefinition = "TEXT")
     private String phoneNumber;
@@ -34,9 +37,21 @@ public class Patient {
     @Column(name = "gender", columnDefinition = "TEXT", nullable = false)
     public String gender;
 
-    public Patient() { }
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
+    private MedicalHistory medicalHistory;
 
-    public Patient(String fullName, String dateOfBirth,
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Allergy> allergies;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Immunization> immunizations;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Treatment> treatments;
+
+    public Patient() {}
+
+    public Patient(String fullName, LocalDate dateOfBirth,
                    String phoneNumber, String email, String address, String idNumber, String gender) {
 
         this.fullName = fullName;
@@ -48,11 +63,11 @@ public class Patient {
         this.gender = gender;
     }
 
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
