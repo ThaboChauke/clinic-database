@@ -1,7 +1,7 @@
 package com.chauke.clinicdatabase;
 
-import com.chauke.clinicdatabase.Models.Patient;
-import com.chauke.clinicdatabase.Repository.PatientRepository;
+import com.chauke.clinicdatabase.entity.Patient;
+import com.chauke.clinicdatabase.repository.PatientRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.chauke.clinicdatabase.Models;
+package com.chauke.clinicdatabase.entity;
 
 import jakarta.persistence.*;
 
