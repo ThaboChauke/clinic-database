@@ -1,5 +1,6 @@
 package com.chauke.clinicdatabase.controllers;
 
+import com.chauke.clinicdatabase.entity.MedicalHistory;
 import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.service.PatientService;
 import org.springframework.http.HttpStatus;
@@ -36,4 +37,14 @@ public class PatientController {
     public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
         return patientService.savePatient(patient);
     }
+
+    @GetMapping("/api/patients/id/{idNumber}")
+    public Patient getPatient(@PathVariable String idNumber) {
+        return patientService.getPatientByIdNumber(idNumber);
+    }
+
+//    @GetMapping("/api/patients/medicalhistory/{id}")
+//    public ResponseEntity<MedicalHistory> getMedicalHistory(@PathVariable Long id) {
+//        return patientService.getMedicalHistory(id);
+//    }
 }

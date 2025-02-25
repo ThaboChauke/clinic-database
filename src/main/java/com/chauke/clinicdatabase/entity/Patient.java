@@ -31,11 +31,11 @@ public class Patient {
     @Column(name = "address", columnDefinition = "TEXT")
     private String address;
 
-    @Column(name = "id_number", columnDefinition = "TEXT", unique = true, nullable = false)
-    public String idNumber;
+    @Column(name = "id_number", unique = true, nullable = false)
+    private String idNumber;
 
     @Column(name = "gender", columnDefinition = "TEXT", nullable = false)
-    public String gender;
+    private String gender;
 
     @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
     private MedicalHistory medicalHistory;
@@ -87,14 +87,6 @@ public class Patient {
         this.fullName = fullName;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -111,17 +103,37 @@ public class Patient {
         this.address = address;
     }
 
+    public List<Allergy> getAllergies() {
+        return allergies;
+    }
+
+    public List<Immunization> getImmunizations() {
+        return immunizations;
+    }
+
+    public List<Treatment> getTreatments() {
+        return treatments;
+    }
+
+    public MedicalHistory getMedicalHistory() {
+        return medicalHistory;
+    }
+
     @Override
     public String toString() {
         return "Patient{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
                 ", idNumber='" + idNumber + '\'' +
                 ", gender='" + gender + '\'' +
+                ", medicalHistory=" + medicalHistory +
+                ", allergies=" + allergies.toString() +
+                ", immunizations=" + immunizations +
+                ", treatments=" + treatments +
                 '}';
     }
 }
