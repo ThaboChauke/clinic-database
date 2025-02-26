@@ -1,9 +1,7 @@
 package com.chauke.clinicdatabase.service;
 
-import com.chauke.clinicdatabase.entity.MedicalHistory;
 import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.repository.PatientRepository;
-import org.hibernate.Hibernate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,14 +19,9 @@ public class PatientService {
     }
 
     public Patient getById(Long id) {
-        Patient patient = patientRepository.findById(id).orElseThrow(
+        return patientRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found")
         );
-        Hibernate.initialize(patient.getMedicalHistory());
-        Hibernate.initialize(patient.getAllergies());
-        Hibernate.initialize(patient.getTreatments());
-        Hibernate.initialize(patient.getImmunizations());
-        return patient;
     }
 
     public Collection<Patient> getAll() {

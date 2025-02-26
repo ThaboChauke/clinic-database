@@ -40,13 +40,13 @@ public class Patient {
     @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
     private MedicalHistory medicalHistory;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Allergy> allergies;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Immunization> immunizations;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Treatment> treatments;
 
     public Patient() {}
@@ -131,9 +131,6 @@ public class Patient {
                 ", idNumber='" + idNumber + '\'' +
                 ", gender='" + gender + '\'' +
                 ", medicalHistory=" + medicalHistory +
-                ", allergies=" + allergies.toString() +
-                ", immunizations=" + immunizations +
-                ", treatments=" + treatments +
                 '}';
     }
 }
