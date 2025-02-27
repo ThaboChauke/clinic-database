@@ -9,7 +9,7 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
 
     Optional<Patient> findPatientByIdNumber(String idNumber);
 
-    void deletePatientByIdNumber(String idNumber);
+    boolean existsByIdNumber(String idNumber);
 
-    boolean existsPatientByIdNumber(String idNumber);
+    void removePatientByIdNumber(String idNumber);
 }

@@ -2,6 +2,7 @@ package com.chauke.clinicdatabase.service;
 
 import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.repository.PatientRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,23 +19,9 @@ public class PatientService {
         this.patientRepository = patientRepository;
     }
 
-//    public Patient getById(Integer id) {
-//        return patientRepository.findById(id).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found")
-//        );
-//    }
-
     public Collection<Patient> getAll() {
         return patientRepository.findAll();
     }
-
-//    public ResponseEntity<HttpStatus> removeById(Integer id) {
-//        if (!patientRepository.existsById(id)) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found");
-//        }
-//        patientRepository.deleteById(id);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 
     public ResponseEntity<Patient> savePatient(Patient patient) {
         Patient savePatient = patientRepository.save(patient);
@@ -52,11 +39,12 @@ public class PatientService {
         return ResponseEntity.status(HttpStatus.OK).body(updatePatient);
     }
 
+    @Transactional
     public ResponseEntity<HttpStatus> deletePatient(String idNumber) {
-        if (!patientRepository.existsPatientByIdNumber(idNumber)) {
+        if (!patientRepository.existsByIdNumber(idNumber)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found");
         }
-        patientRepository.deletePatientByIdNumber(idNumber);
+        patientRepository.removePatientByIdNumber(idNumber);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
