@@ -3,8 +3,7 @@ package com.chauke.clinicdatabase.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
-
+import java.util.Objects;
 
 @Entity(name = "Patient")
 @Table(name = "patient")
@@ -14,7 +13,7 @@ public class Patient {
     @SequenceGenerator(name = "patient_sequence", sequenceName = "patient_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patient_sequence")
     @Column(name = "id", updatable = false)
-    private Long id;
+    private Integer id;
 
     @Column(name = "full_name", nullable = false, columnDefinition = "TEXT")
     private String fullName;
@@ -36,18 +35,6 @@ public class Patient {
 
     @Column(name = "gender", columnDefinition = "TEXT", nullable = false)
     private String gender;
-
-    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
-    private MedicalHistory medicalHistory;
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Allergy> allergies;
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Immunization> immunizations;
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Treatment> treatments;
 
     public Patient() {}
 
@@ -103,20 +90,16 @@ public class Patient {
         this.address = address;
     }
 
-    public List<Allergy> getAllergies() {
-        return allergies;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return Objects.equals(id, patient.id) && Objects.equals(fullName, patient.fullName) && Objects.equals(dateOfBirth, patient.dateOfBirth) && Objects.equals(phoneNumber, patient.phoneNumber) && Objects.equals(email, patient.email) && Objects.equals(address, patient.address) && Objects.equals(idNumber, patient.idNumber) && Objects.equals(gender, patient.gender);
     }
 
-    public List<Immunization> getImmunizations() {
-        return immunizations;
-    }
-
-    public List<Treatment> getTreatments() {
-        return treatments;
-    }
-
-    public MedicalHistory getMedicalHistory() {
-        return medicalHistory;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, fullName, dateOfBirth, phoneNumber, email, address, idNumber, gender);
     }
 
     @Override
@@ -130,7 +113,6 @@ public class Patient {
                 ", address='" + address + '\'' +
                 ", idNumber='" + idNumber + '\'' +
                 ", gender='" + gender + '\'' +
-                ", medicalHistory=" + medicalHistory +
                 '}';
     }
 }

@@ -11,7 +11,7 @@ public class Employee {
     @SequenceGenerator(name = "employee_sequence", sequenceName = "employee_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_sequence")
     @Column(name = "id", updatable = false)
-    private Long id;
+    private Integer id;
 
     @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
     private String firstName;
@@ -31,7 +31,7 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(Long id, String firstName, String lastName, String email, String password, Roles role) {
+    public Employee(Integer id, String firstName, String lastName, String email, String password, Roles role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

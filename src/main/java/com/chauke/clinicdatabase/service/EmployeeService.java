@@ -22,7 +22,7 @@ public class EmployeeService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<HttpStatus> getEmployeeById(Long id) {
+    public ResponseEntity<HttpStatus> getEmployeeById(Integer id) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

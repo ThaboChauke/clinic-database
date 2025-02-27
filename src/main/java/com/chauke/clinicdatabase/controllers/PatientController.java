@@ -1,6 +1,5 @@
 package com.chauke.clinicdatabase.controllers;
 
-import com.chauke.clinicdatabase.entity.MedicalHistory;
 import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.service.PatientService;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@RestController
+@RestController()
+@RequestMapping("api/patients")
 public class PatientController {
 
     private final PatientService patientService;
@@ -18,33 +18,34 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @GetMapping("/api/patients")
+    @GetMapping
     public Collection<Patient> getPatients() {
         return patientService.getAll();
     }
 
-    @GetMapping("/api/patients/{id}")
-    public Patient getPatients(@PathVariable Long id) {
-        return patientService.getById(id);
-    }
+//    @GetMapping("{id}")
+//    public Patient getPatients(@PathVariable Integer id) {
+//        return patientService.getById(id);
+//    }
 
-    @DeleteMapping("/api/patients/{id}")
-    public ResponseEntity<HttpStatus> deletePatient(@PathVariable Long id) {
-        return patientService.removeById(id);
-    }
-
-    @PostMapping("/api/patients")
-    public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
-        return patientService.savePatient(patient);
-    }
-
-    @GetMapping("/api/patients/id/{idNumber}")
+    @GetMapping("{idNumber}")
     public Patient getPatient(@PathVariable String idNumber) {
         return patientService.getPatientByIdNumber(idNumber);
     }
 
-//    @GetMapping("/api/patients/medicalhistory/{id}")
-//    public ResponseEntity<MedicalHistory> getMedicalHistory(@PathVariable Long id) {
-//        return patientService.getMedicalHistory(id);
-//    }
+    @DeleteMapping("{idNumber}")
+    public ResponseEntity<HttpStatus> deletePatient(@PathVariable String idNumber) {
+        return patientService.deletePatient(idNumber);
+    }
+
+    @PostMapping
+    public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
+        return patientService.savePatient(patient);
+    }
+
+    @PutMapping
+    public ResponseEntity<Patient> updatePatient(@RequestBody Patient patient) {
+        return patientService.updatePatient(patient);
+    }
+
 }
