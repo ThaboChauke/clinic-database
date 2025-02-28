@@ -22,8 +22,8 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Employee getEmployeeById(Integer id) {
-        return employeeRepository.findById(id).orElseThrow(
+    public Employee getEmployeeByEmail(String email) {
+        return employeeRepository.findEmployeeByEmail(email).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found")
         );
     }
@@ -33,11 +33,11 @@ public class EmployeeService {
         return ResponseEntity.status(HttpStatus.CREATED).body(employee1);
     }
 
-    public ResponseEntity<HttpStatus> deleteEmployee(Integer id) {
-        if (!employeeRepository.existsById(id)) {
+    public ResponseEntity<HttpStatus> deleteEmployee(String email) {
+        if (!employeeRepository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee Not Found");
         }
-        employeeRepository.deleteById(id);
+        employeeRepository.removeByEmail(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
+@RequestMapping("/api/employee")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -17,37 +18,27 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/api/login")
-    public ResponseEntity<HttpStatus> login() {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/api/logout")
-    public ResponseEntity<HttpStatus> logout() {
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @GetMapping("/api/employees")
+    @GetMapping
     public Collection<Employee> getEmployees() {
         return employeeService.getEmployees();
     }
 
-    @GetMapping("/api/employees/{id}")
-    public Employee getEmployeeById(@PathVariable Integer id) {
-        return employeeService.getEmployeeById(id);
+    @GetMapping("/{email}")
+    public Employee getEmployeeByEmail(@PathVariable String email) {
+        return employeeService.getEmployeeByEmail(email);
     }
 
-    @PostMapping("/api/employees")
+    @PostMapping
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
         return employeeService.addEmployee(employee);
     }
 
-    @DeleteMapping("/api/employees/{id}")
-    public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable Integer id) {
-        return employeeService.deleteEmployee(id);
+    @DeleteMapping("/{email}")
+    public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable String email) {
+        return employeeService.deleteEmployee(email);
     }
 
-    @PutMapping("/api/employee")
+    @PutMapping
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
         return employeeService.updateEmployee(employee);
     }

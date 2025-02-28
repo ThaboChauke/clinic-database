@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController()
-@RequestMapping("api/patients")
+@RequestMapping("/api/patients")
 public class PatientController {
 
     private final PatientService patientService;
@@ -23,12 +23,12 @@ public class PatientController {
         return patientService.getAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Patient getPatient(@PathVariable String id) {
         return patientService.getPatientByIdNumber(id);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deletePatient(@PathVariable String id) {
         return patientService.deletePatient(id);
     }
