@@ -2,21 +2,21 @@ package com.chauke.clinicdatabase.controllers;
 
 import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.service.PatientService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController()
 @RequestMapping("/api/patients")
+@AllArgsConstructor
+@PreAuthorize("hasAuthority('GENERAL')")
 public class PatientController {
 
     private final PatientService patientService;
-
-    public PatientController(PatientService patientService) {
-        this.patientService = patientService;
-    }
 
     @GetMapping
     public Collection<Patient> getPatients() {

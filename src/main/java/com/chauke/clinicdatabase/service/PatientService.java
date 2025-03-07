@@ -3,6 +3,7 @@ package com.chauke.clinicdatabase.service;
 import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.repository.PatientRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,13 +12,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Collection;
 
 @Service
+@AllArgsConstructor
 public class PatientService {
 
     private final PatientRepository patientRepository;
-
-    public PatientService(PatientRepository patientRepository) {
-        this.patientRepository = patientRepository;
-    }
 
     public Collection<Patient> getAll() {
         return patientRepository.findAll();

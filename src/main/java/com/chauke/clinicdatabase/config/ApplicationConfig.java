@@ -7,6 +7,7 @@ import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.enums.Roles;
 import com.chauke.clinicdatabase.repository.EmployeeRepository;
 import com.chauke.clinicdatabase.repository.PatientRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,13 +23,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDate;
 
 @Configuration
+@AllArgsConstructor
 public class ApplicationConfig {
 
     private final EmployeeRepository employeeRepository;
-
-    public ApplicationConfig(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -62,7 +60,9 @@ public class ApplicationConfig {
             pr.save(george);
 
             Employee linda = new Employee("Linda", "Simmons", "linda@email.com", passwordEncoder.encode("pass123"), Roles.GENERAL);
+            Employee admin = new Employee("Paul", "Doe", "paul@email.com", passwordEncoder.encode("pass123"), Roles.ADMIN);
             epr.save(linda);
+            epr.save(admin);
         };
     }
 }
