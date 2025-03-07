@@ -2,10 +2,10 @@ package com.chauke.clinicdatabase.controllers;
 
 import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.service.PatientService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -13,7 +13,6 @@ import java.util.*;
 @RestController()
 @RequestMapping("/api/patients")
 @AllArgsConstructor
-@PreAuthorize("hasAuthority('GENERAL')")
 public class PatientController {
 
     private final PatientService patientService;
@@ -34,12 +33,12 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
+    public ResponseEntity<Patient> addPatient(@RequestBody @Valid Patient patient) {
         return patientService.savePatient(patient);
     }
 
     @PutMapping
-    public ResponseEntity<Patient> updatePatient(@RequestBody Patient patient) {
+    public ResponseEntity<Patient> updatePatient(@RequestBody @Valid Patient patient) {
         return patientService.updatePatient(patient);
     }
 

@@ -2,6 +2,8 @@ package com.chauke.clinicdatabase.entity;
 
 import com.chauke.clinicdatabase.enums.Roles;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,21 +26,27 @@ public class Employee implements UserDetails {
     private Integer id;
 
     @Getter
+    @NotNull(message = "First name cannot be null")
     @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
     private String firstName;
 
     @Getter
+    @NotNull(message = "Last name cannot be null")
     @Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
     private String lastName;
 
     @Getter
+    @Email(message = "Invalid email address")
+    @NotNull
     @Column(name = "email", columnDefinition = "TEXT", nullable = false, unique = true)
     private String email;
 
+    @NotNull(message = "Password cannot be null")
     @Column(name = "password", nullable = false)
     private String password;
 
     @Getter
+    @NotNull
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Roles role;

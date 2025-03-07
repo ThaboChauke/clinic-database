@@ -5,7 +5,6 @@ import com.chauke.clinicdatabase.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -13,7 +12,6 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/api/employee")
 @AllArgsConstructor
-@PreAuthorize("hasAuthority('ADMIN')")
 public class EmployeeController {
 
     private final EmployeeService employeeService;

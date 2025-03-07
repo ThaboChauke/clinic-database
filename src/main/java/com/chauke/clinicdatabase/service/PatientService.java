@@ -27,6 +27,10 @@ public class PatientService {
     }
 
     public Patient getPatientByIdNumber(String idNumber) {
+        if (idNumber == null || idNumber.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID number is required");
+        }
+
         return patientRepository.findPatientByIdNumber(idNumber).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found")
         );
