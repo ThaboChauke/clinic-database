@@ -1,7 +1,6 @@
 package com.chauke.clinicdatabase.dto;
 
 import com.chauke.clinicdatabase.entity.Patient;
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
