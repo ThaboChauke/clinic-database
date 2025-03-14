@@ -1,4 +1,4 @@
-package com.chauke.clinicdatabase.controllers.auth;
+package com.chauke.clinicdatabase.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class ErrorResponse {
-
     private String message;
     private int status;
 }

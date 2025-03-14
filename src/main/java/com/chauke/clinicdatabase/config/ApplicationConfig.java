@@ -59,8 +59,8 @@ public class ApplicationConfig {
                     "20 sing street", "0304494990490", "Male");
             pr.save(george);
 
-            Employee linda = new Employee("Linda", "Simmons", "linda@email.com", passwordEncoder.encode("pass123"), Roles.GENERAL);
-            Employee admin = new Employee("Paul", "Doe", "paul@email.com", passwordEncoder.encode("pass123"), Roles.ADMIN);
+            Employee linda = new Employee("Linda", "Simmons", "linda@admin.com", passwordEncoder.encode("pass123"), Roles.ADMIN);
+            Employee admin = new Employee("Paul", "Doe", "paul@email.com", passwordEncoder.encode("pass123"), Roles.GENERAL);
             epr.save(linda);
             epr.save(admin);
         };

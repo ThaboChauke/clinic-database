@@ -1,34 +1,46 @@
 package com.chauke.clinicdatabase.service;
 
+import com.chauke.clinicdatabase.dto.AuthResponse;
+import com.chauke.clinicdatabase.dto.EmployeeDTO;
+import com.chauke.clinicdatabase.dto.EmployeeDTOMapper;
+import com.chauke.clinicdatabase.dto.RegisterRequest;
 import com.chauke.clinicdatabase.entity.Employee;
 import com.chauke.clinicdatabase.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final AuthService authService;
+    private final EmployeeDTOMapper employeeDTOMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public Collection<Employee> getEmployees() {
-        return employeeRepository.findAll();
+    public Collection<EmployeeDTO> getEmployees() {
+        return employeeRepository.findAll().stream()
+                .map(employeeDTOMapper)
+                .collect(Collectors.toList());
     }
 
-    public Employee getEmployeeByEmail(String email) {
-        return employeeRepository.findEmployeeByEmail(email).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found")
+    public EmployeeDTO getEmployeeByEmail(String email) {
+        return employeeRepository.findEmployeeByEmail(email)
+                .map(employeeDTOMapper)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found")
         );
     }
 
-    public ResponseEntity<Employee> addEmployee(Employee employee) {
-        Employee employee1 = employeeRepository.save(employee);
-        return ResponseEntity.status(HttpStatus.CREATED).body(employee1);
+    public AuthResponse addEmployee(RegisterRequest employee) {
+        return authService.createEmployee(employee);
     }
 
     public ResponseEntity<HttpStatus> deleteEmployee(String email) {
@@ -39,8 +51,18 @@ public class EmployeeService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Employee> updateEmployee(Employee employee) {
-        Employee employee1 = employeeRepository.save(employee);
-        return ResponseEntity.status(HttpStatus.OK).body(employee1);
+    public Employee updateEmployee(RegisterRequest employee) {
+        if (employee.getEmail() == null || employee.getEmail().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is required");
+        }
+
+        Employee existingEmployee = employeeRepository.findEmployeeByEmail(employee.getEmail())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
+
+        existingEmployee.setFirstName(Optional.ofNullable(employee.getFirstName()).orElse(existingEmployee.getFirstName()));
+        existingEmployee.setLastName(Optional.ofNullable(employee.getLastName()).orElse(existingEmployee.getLastName()));
+        existingEmployee.setPassword(Optional.ofNullable(passwordEncoder.encode(employee.getPassword())).orElse(existingEmployee.getPassword()));
+        existingEmployee.setEmail(Optional.ofNullable(employee.getEmail()).orElse(existingEmployee.getEmail()));
+        return existingEmployee;
     }
 }

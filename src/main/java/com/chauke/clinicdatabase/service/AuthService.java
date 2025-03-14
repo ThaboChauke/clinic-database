@@ -1,7 +1,10 @@
 package com.chauke.clinicdatabase.service;
 
-import com.chauke.clinicdatabase.controllers.auth.AuthRequest;
-import com.chauke.clinicdatabase.controllers.auth.AuthResponse;
+import com.chauke.clinicdatabase.dto.AuthRequest;
+import com.chauke.clinicdatabase.dto.AuthResponse;
+import com.chauke.clinicdatabase.dto.RegisterRequest;
+import com.chauke.clinicdatabase.entity.Employee;
+import com.chauke.clinicdatabase.enums.Roles;
 import com.chauke.clinicdatabase.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,15 +23,24 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    //    public AuthResponse createEmployee(RegisterRequest registerRequest) {
-//        var employee = new Employee(registerRequest.getFirstName(), registerRequest.getLastName(),
-//                registerRequest.getEmail(), passwordEncoder.encode(registerRequest.getPassword()),
-//                Roles.GENERAL);
-//
-//        employeeRepository.save(employee);
-//        var jwtToken = jwtService.generateToken(employee);
-//        return AuthResponse.builder().token(jwtToken).build();
-//    }
+        public AuthResponse createEmployee(RegisterRequest registerRequest) {
+            boolean check = employeeRepository.existsByEmail(registerRequest.getEmail());
+
+            if (check) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
+            }
+
+            Employee employee = new Employee();
+            employee.setFirstName(registerRequest.getFirstName());
+            employee.setLastName(registerRequest.getLastName());
+            employee.setEmail(registerRequest.getEmail());
+            employee.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+            employee.setRole(Roles.GENERAL);
+
+            employeeRepository.save(employee);
+            var jwtToken = jwtService.generateToken(employee);
+            return AuthResponse.builder().token(jwtToken).build();
+    }
 
     public AuthResponse authenticate(AuthRequest request) {
         authenticationManager.authenticate(

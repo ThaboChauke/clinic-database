@@ -1,5 +1,9 @@
 package com.chauke.clinicdatabase.controllers;
 
+import com.chauke.clinicdatabase.dto.AuthResponse;
+import com.chauke.clinicdatabase.dto.EmployeeDTO;
+import com.chauke.clinicdatabase.dto.EmployeeDTOMapper;
+import com.chauke.clinicdatabase.dto.RegisterRequest;
 import com.chauke.clinicdatabase.entity.Employee;
 import com.chauke.clinicdatabase.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -15,20 +19,21 @@ import java.util.Collection;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final EmployeeDTOMapper employeeDTOMapper;
 
     @GetMapping
-    public Collection<Employee> getEmployees() {
+    public Collection<EmployeeDTO> getEmployees() {
         return employeeService.getEmployees();
     }
 
     @GetMapping("/{email}")
-    public Employee getEmployeeByEmail(@PathVariable String email) {
+    public EmployeeDTO getEmployeeByEmail(@PathVariable String email) {
         return employeeService.getEmployeeByEmail(email);
     }
 
     @PostMapping
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-        return employeeService.addEmployee(employee);
+    public ResponseEntity<AuthResponse> addEmployee(@RequestBody RegisterRequest employee) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.addEmployee(employee));
     }
 
     @DeleteMapping("/{email}")
@@ -37,7 +42,9 @@ public class EmployeeController {
     }
 
     @PutMapping
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
-        return employeeService.updateEmployee(employee);
+    public ResponseEntity<EmployeeDTO> updateEmployee(@RequestBody RegisterRequest employee) {
+        Employee updatedEmployee = employeeService.updateEmployee(employee);
+        EmployeeDTO employeeDTO = employeeDTOMapper.apply(updatedEmployee);
+        return ResponseEntity.ok(employeeDTO);
     }
 }

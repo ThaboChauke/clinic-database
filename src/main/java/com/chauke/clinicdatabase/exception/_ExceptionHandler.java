@@ -1,6 +1,6 @@
 package com.chauke.clinicdatabase.exception;
 
-import com.chauke.clinicdatabase.controllers.auth.ErrorResponse;
+import com.chauke.clinicdatabase.dto.ErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

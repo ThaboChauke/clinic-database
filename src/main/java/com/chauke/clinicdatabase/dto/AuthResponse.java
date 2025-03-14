@@ -1,4 +1,4 @@
-package com.chauke.clinicdatabase.controllers.auth;
+package com.chauke.clinicdatabase.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 public class AuthResponse {
-
     private String token;
 }

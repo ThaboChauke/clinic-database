@@ -4,6 +4,7 @@ import com.chauke.clinicdatabase.enums.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,6 +38,7 @@ public class Employee implements UserDetails {
 
     @Getter
     @Email(message = "Invalid email address")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Invalid email format")
     @NotNull
     @Column(name = "email", columnDefinition = "TEXT", nullable = false, unique = true)
     private String email;

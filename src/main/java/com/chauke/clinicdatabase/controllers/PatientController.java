@@ -1,5 +1,7 @@
 package com.chauke.clinicdatabase.controllers;
 
+import com.chauke.clinicdatabase.dto.PatientDTO;
+import com.chauke.clinicdatabase.dto.PatientDTOMapper;
 import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.service.PatientService;
 import jakarta.validation.Valid;
@@ -16,15 +18,16 @@ import java.util.*;
 public class PatientController {
 
     private final PatientService patientService;
+    private final PatientDTOMapper patientDTOMapper;
 
     @GetMapping
-    public Collection<Patient> getPatients() {
+    public Collection<PatientDTO> getPatients() {
         return patientService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Patient getPatient(@PathVariable String id) {
-        return patientService.getPatientByIdNumber(id);
+    public ResponseEntity<PatientDTO> getPatient(@PathVariable String id) {
+        return ResponseEntity.ok(patientService.getPatientByIdNumber(id));
     }
 
     @DeleteMapping("/{id}")
@@ -33,13 +36,17 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<Patient> addPatient(@RequestBody @Valid Patient patient) {
-        return patientService.savePatient(patient);
+    public ResponseEntity<PatientDTO> addPatient(@RequestBody @Valid PatientDTO patientDTO) {
+        Patient savedPatient = patientService.savePatient(patientDTO);
+        PatientDTO savedPatientDTO = patientDTOMapper.apply(savedPatient);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPatientDTO);
     }
 
     @PutMapping
-    public ResponseEntity<Patient> updatePatient(@RequestBody @Valid Patient patient) {
-        return patientService.updatePatient(patient);
+    public ResponseEntity<PatientDTO> updatePatient(@RequestBody @Valid PatientDTO patientDTO) {
+        Patient updatedPatient = patientService.updatePatient(patientDTO);
+        PatientDTO updatedPatientDTO = patientDTOMapper.apply(updatedPatient);
+        return ResponseEntity.ok(updatedPatientDTO);
     }
 
 }
