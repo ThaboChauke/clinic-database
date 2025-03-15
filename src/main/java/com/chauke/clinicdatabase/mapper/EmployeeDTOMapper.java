@@ -1,5 +1,6 @@
-package com.chauke.clinicdatabase.dto;
+package com.chauke.clinicdatabase.mapper;
 
+import com.chauke.clinicdatabase.dto.EmployeeDTO;
 import com.chauke.clinicdatabase.entity.Employee;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;

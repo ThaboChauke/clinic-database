@@ -1,8 +1,9 @@
 package com.chauke.clinicdatabase.controllers;
 
 import com.chauke.clinicdatabase.dto.PatientDTO;
-import com.chauke.clinicdatabase.dto.PatientDTOMapper;
-import com.chauke.clinicdatabase.entity.Patient;
+import com.chauke.clinicdatabase.dto.PatientFullDTO;
+import com.chauke.clinicdatabase.entity.*;
+import com.chauke.clinicdatabase.mapper.PatientDTOMapper;
 import com.chauke.clinicdatabase.service.PatientService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,11 @@ public class PatientController {
         return ResponseEntity.ok(patientService.getPatientByIdNumber(id));
     }
 
+    @GetMapping("/{id}/details")
+    public ResponseEntity<PatientFullDTO> getPatientWithDetails(@PathVariable String id) {
+        return ResponseEntity.ok(patientService.getPatientWithDetails(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deletePatient(@PathVariable String id) {
         return patientService.deletePatient(id);
@@ -49,4 +55,23 @@ public class PatientController {
         return ResponseEntity.ok(updatedPatientDTO);
     }
 
+    @PostMapping("/{idNumber}/allergies")
+    public ResponseEntity<PatientFullDTO> addAllergy(@PathVariable String idNumber, @RequestBody Allergy allergy) {
+        return patientService.addAllergyToPatient(idNumber, allergy);
+    }
+
+    @PostMapping("/{idNumber}/condition")
+    public ResponseEntity<PatientFullDTO> addCondition(@PathVariable String idNumber, @RequestBody Conditions condition) {
+        return patientService.addConditionToPatient(idNumber, condition);
+    }
+
+    @PostMapping("/{idNumber}/immunization")
+    public ResponseEntity<PatientFullDTO> addImmunization(@PathVariable String idNumber, @RequestBody Immunization immunization) {
+        return patientService.addImmunizationsToPatient(idNumber, immunization);
+    }
+
+    @PostMapping("/{idNumber}/treatment")
+    public ResponseEntity<PatientFullDTO> addTreatment(@PathVariable String idNumber, @RequestBody Treatment treatment) {
+        return patientService.addTreatmentToPatient(idNumber, treatment);
+    }
 }

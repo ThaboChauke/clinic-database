@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "Patient")
 @Table(name = "patient")
@@ -50,6 +51,18 @@ public class Patient {
     @Column(name = "gender", columnDefinition = "TEXT", nullable = false)
     @NotNull(message = "Gender cannot be null")
     private String gender;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Allergy> allergies;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Conditions> conditions;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Immunization> immunizations;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Treatment> treatments;
 
     public Patient(String fullName, LocalDate dateOfBirth,
                    String phoneNumber, String email, String address, String idNumber, String gender) {

@@ -1,8 +1,10 @@
 package com.chauke.clinicdatabase.service;
 
 import com.chauke.clinicdatabase.dto.PatientDTO;
-import com.chauke.clinicdatabase.dto.PatientDTOMapper;
-import com.chauke.clinicdatabase.entity.Patient;
+import com.chauke.clinicdatabase.dto.PatientFullDTO;
+import com.chauke.clinicdatabase.entity.*;
+import com.chauke.clinicdatabase.mapper.PatientDTOMapper;
+import com.chauke.clinicdatabase.mapper.PatientFullDTOMapper;
 import com.chauke.clinicdatabase.repository.PatientRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
     private final PatientDTOMapper patientDTOMapper;
+    private final PatientFullDTOMapper patientFullDTOMapper;
 
     public Collection<PatientDTO> getAll() {
         return patientRepository.findAll().stream()
@@ -83,5 +86,51 @@ public class PatientService {
         }
         patientRepository.removePatientByIdNumber(idNumber);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public PatientFullDTO getPatientWithDetails(String idNumber) {
+        return patientRepository.findPatientWithDetailsByIdNumber(idNumber)
+                .map(patientFullDTOMapper)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found"));
+    }
+
+    @Transactional
+    public ResponseEntity<PatientFullDTO> addAllergyToPatient(String idNumber, Allergy allergy) {
+        Patient patient = patientRepository.findPatientByIdNumber(idNumber)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
+
+        allergy.setPatient(patient);
+        patient.getAllergies().add(allergy);
+        return ResponseEntity.status(HttpStatus.OK).body(patientFullDTOMapper.apply(patient));
+    }
+
+    @Transactional
+    public ResponseEntity<PatientFullDTO> addConditionToPatient(String idNumber, Conditions condition) {
+        Patient patient = patientRepository.findPatientByIdNumber(idNumber)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
+
+        condition.setPatient(patient);
+        patient.getConditions().add(condition);
+        return ResponseEntity.status(HttpStatus.OK).body(patientFullDTOMapper.apply(patient));
+    }
+
+    @Transactional
+    public ResponseEntity<PatientFullDTO> addImmunizationsToPatient(String idNumber, Immunization immunization) {
+        Patient patient = patientRepository.findPatientByIdNumber(idNumber)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
+
+        immunization.setPatient(patient);
+        patient.getImmunizations().add(immunization);
+        return ResponseEntity.status(HttpStatus.OK).body(patientFullDTOMapper.apply(patient));
+    }
+
+    @Transactional
+    public ResponseEntity<PatientFullDTO> addTreatmentToPatient(String idNumber, Treatment treatment) {
+        Patient patient = patientRepository.findPatientByIdNumber(idNumber)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
+
+        treatment.setPatient(patient);
+        patient.getTreatments().add(treatment);
+        return ResponseEntity.status(HttpStatus.OK).body(patientFullDTOMapper.apply(patient));
     }
 }
