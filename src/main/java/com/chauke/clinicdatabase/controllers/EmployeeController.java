@@ -2,7 +2,7 @@ package com.chauke.clinicdatabase.controllers;
 
 import com.chauke.clinicdatabase.dto.AuthResponse;
 import com.chauke.clinicdatabase.dto.EmployeeDTO;
-import com.chauke.clinicdatabase.dto.EmployeeDTOMapper;
+import com.chauke.clinicdatabase.mapper.EmployeeDTOMapper;
 import com.chauke.clinicdatabase.dto.RegisterRequest;
 import com.chauke.clinicdatabase.entity.Employee;
 import com.chauke.clinicdatabase.service.EmployeeService;
@@ -46,5 +46,10 @@ public class EmployeeController {
         Employee updatedEmployee = employeeService.updateEmployee(employee);
         EmployeeDTO employeeDTO = employeeDTOMapper.apply(updatedEmployee);
         return ResponseEntity.ok(employeeDTO);
+    }
+
+    @PostMapping("/admin")
+    public ResponseEntity<AuthResponse> addEmployeeAdmin(@RequestBody RegisterRequest employee) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.addAdmin(employee));
     }
 }

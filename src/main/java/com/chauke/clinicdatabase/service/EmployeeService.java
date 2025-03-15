@@ -2,7 +2,7 @@ package com.chauke.clinicdatabase.service;
 
 import com.chauke.clinicdatabase.dto.AuthResponse;
 import com.chauke.clinicdatabase.dto.EmployeeDTO;
-import com.chauke.clinicdatabase.dto.EmployeeDTOMapper;
+import com.chauke.clinicdatabase.mapper.EmployeeDTOMapper;
 import com.chauke.clinicdatabase.dto.RegisterRequest;
 import com.chauke.clinicdatabase.entity.Employee;
 import com.chauke.clinicdatabase.repository.EmployeeRepository;
@@ -41,6 +41,10 @@ public class EmployeeService {
 
     public AuthResponse addEmployee(RegisterRequest employee) {
         return authService.createEmployee(employee);
+    }
+
+    public AuthResponse addAdmin(RegisterRequest employee) {
+        return authService.createAdmin(employee);
     }
 
     public ResponseEntity<HttpStatus> deleteEmployee(String email) {

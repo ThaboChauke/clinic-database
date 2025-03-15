@@ -1,6 +1,7 @@
 package com.chauke.clinicdatabase.exception;
 
 import com.chauke.clinicdatabase.dto.ErrorResponse;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,14 @@ public class _ExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach((error) -> errors.put(error.getField(), error.getDefaultMessage()));
 
         return errors;
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        ex.getConstraintViolations().forEach((error) -> errorResponse.setMessage(error.getMessage()));
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

@@ -23,23 +23,38 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-        public AuthResponse createEmployee(RegisterRequest registerRequest) {
-            boolean check = employeeRepository.existsByEmail(registerRequest.getEmail());
+    public AuthResponse createEmployee(RegisterRequest registerRequest) {
+        Employee employee = employeeCreation(registerRequest);
+        employee.setRole(Roles.GENERAL);
 
-            if (check) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
-            }
+        employeeRepository.save(employee);
+        var jwtToken = jwtService.generateToken(employee);
+        return AuthResponse.builder().token(jwtToken).build();
+    }
 
-            Employee employee = new Employee();
-            employee.setFirstName(registerRequest.getFirstName());
-            employee.setLastName(registerRequest.getLastName());
-            employee.setEmail(registerRequest.getEmail());
-            employee.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-            employee.setRole(Roles.GENERAL);
+    public AuthResponse createAdmin(RegisterRequest registerRequest) {
+        Employee employee = employeeCreation(registerRequest);
+        employee.setRole(Roles.ADMIN);
 
-            employeeRepository.save(employee);
-            var jwtToken = jwtService.generateToken(employee);
-            return AuthResponse.builder().token(jwtToken).build();
+        employeeRepository.save(employee);
+        var jwtToken = jwtService.generateToken(employee);
+        return AuthResponse.builder().token(jwtToken).build();
+    }
+
+    private Employee employeeCreation(RegisterRequest registerRequest) {
+        boolean check = employeeRepository.existsByEmail(registerRequest.getEmail());
+
+        if (check) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
+        }
+
+        Employee employee = new Employee();
+        employee.setFirstName(registerRequest.getFirstName());
+        employee.setLastName(registerRequest.getLastName());
+        employee.setEmail(registerRequest.getEmail());
+        employee.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+
+        return employee;
     }
 
     public AuthResponse authenticate(AuthRequest request) {
