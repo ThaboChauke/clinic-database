@@ -45,7 +45,7 @@ public class AuthService {
         boolean check = employeeRepository.existsByEmail(registerRequest.getEmail());
 
         if (check) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Employee already exists");
         }
 
         Employee employee = new Employee();
@@ -66,7 +66,7 @@ public class AuthService {
         );
 
         var employee = employeeRepository.findEmployeeByEmail(request.getEmail()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee Not Found"));
         var jwtToken = jwtService.generateToken(employee);
         return AuthResponse.builder().token(jwtToken).build();
     }

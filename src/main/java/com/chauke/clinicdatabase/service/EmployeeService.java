@@ -35,7 +35,7 @@ public class EmployeeService {
     public EmployeeDTO getEmployeeByEmail(String email) {
         return employeeRepository.findEmployeeByEmail(email)
                 .map(employeeDTOMapper)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee Not Found")
         );
     }
 
@@ -61,12 +61,12 @@ public class EmployeeService {
         }
 
         Employee existingEmployee = employeeRepository.findEmployeeByEmail(employee.getEmail())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee Not Found"));
 
         existingEmployee.setFirstName(Optional.ofNullable(employee.getFirstName()).orElse(existingEmployee.getFirstName()));
         existingEmployee.setLastName(Optional.ofNullable(employee.getLastName()).orElse(existingEmployee.getLastName()));
         existingEmployee.setPassword(Optional.ofNullable(passwordEncoder.encode(employee.getPassword())).orElse(existingEmployee.getPassword()));
         existingEmployee.setEmail(Optional.ofNullable(employee.getEmail()).orElse(existingEmployee.getEmail()));
-        return existingEmployee;
+        return employeeRepository.save(existingEmployee);
     }
 }

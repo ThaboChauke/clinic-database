@@ -33,12 +33,7 @@ class PatientServiceTest {
     private PatientService patientService;
     @Mock private PatientRepository patientRepository;
     private final PatientDTOMapper patientDTOMapper = new PatientDTOMapper();
-    private final AllergyDTOMapper allergyDTOMapper = new AllergyDTOMapper();
-    private final TreatmentDTOMapper treatmentDTOMapper = new TreatmentDTOMapper();
-    private final ImmunizationDTOMapper immunizationDTOMapper = new ImmunizationDTOMapper();
-    private final ConditionDTOMapper conditionDTOMapper = new ConditionDTOMapper();
-    @Mock private final PatientFullDTOMapper patientFullDTOMapper = new PatientFullDTOMapper(allergyDTOMapper,
-            conditionDTOMapper, immunizationDTOMapper, treatmentDTOMapper);
+    @Mock private PatientFullDTOMapper patientFullDTOMapper;
 
     @BeforeEach
     void setUp() {
@@ -56,7 +51,7 @@ class PatientServiceTest {
     void addingPatientTest() {
         PatientDTO patientDTO = new PatientDTO("John Doe",LocalDate.of(2001,5,21),
               "0123456789",
-                "john@gmail.com.","24 Nowhere str", "71051623454085", "Male");
+                "john@gmail.com","24 Nowhere str", "71051623454085", "Male");
 
         patientService.savePatient(patientDTO);
 

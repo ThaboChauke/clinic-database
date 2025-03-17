@@ -28,12 +28,6 @@ public class Allergy {
     @Enumerated(EnumType.STRING)
     private AllergySeverity severity;
 
-    public Allergy(Patient patient, String allergyName, AllergySeverity severity) {
-        this.patient = patient;
-        this.allergyName = allergyName;
-        this.severity = severity;
-    }
-
     public Allergy(String allergyName, AllergySeverity severity) {
         this.allergyName = allergyName;
         this.severity = severity;
