@@ -57,21 +57,21 @@ public class PatientController {
 
     @PostMapping("/{idNumber}/allergies")
     public ResponseEntity<PatientFullDTO> addAllergy(@PathVariable String idNumber, @RequestBody Allergy allergy) {
-        return patientService.addAllergyToPatient(idNumber, allergy);
+        return ResponseEntity.ok(patientService.addAllergyToPatient(idNumber, allergy));
     }
 
     @PostMapping("/{idNumber}/condition")
     public ResponseEntity<PatientFullDTO> addCondition(@PathVariable String idNumber, @RequestBody Conditions condition) {
-        return patientService.addConditionToPatient(idNumber, condition);
+        return ResponseEntity.ok(patientService.addConditionToPatient(idNumber, condition));
     }
 
     @PostMapping("/{idNumber}/immunization")
     public ResponseEntity<PatientFullDTO> addImmunization(@PathVariable String idNumber, @RequestBody Immunization immunization) {
-        return patientService.addImmunizationsToPatient(idNumber, immunization);
+        return ResponseEntity.ok(patientService.addImmunizationsToPatient(idNumber, immunization));
     }
 
     @PostMapping("/{idNumber}/treatment")
     public ResponseEntity<PatientFullDTO> addTreatment(@PathVariable String idNumber, @RequestBody Treatment treatment) {
-        return patientService.addTreatmentToPatient(idNumber, treatment);
+        return ResponseEntity.ok(patientService.addTreatmentToPatient(idNumber, treatment));
     }
 }

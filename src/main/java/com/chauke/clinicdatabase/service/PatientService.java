@@ -82,7 +82,7 @@ public class PatientService {
     @Transactional
     public ResponseEntity<HttpStatus> deletePatient(String idNumber) {
         if (!patientRepository.existsByIdNumber(idNumber)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found");
         }
         patientRepository.removePatientByIdNumber(idNumber);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -91,46 +91,46 @@ public class PatientService {
     public PatientFullDTO getPatientWithDetails(String idNumber) {
         return patientRepository.findPatientWithDetailsByIdNumber(idNumber)
                 .map(patientFullDTOMapper)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
     }
 
     @Transactional
-    public ResponseEntity<PatientFullDTO> addAllergyToPatient(String idNumber, Allergy allergy) {
+    public PatientFullDTO addAllergyToPatient(String idNumber, Allergy allergy) {
         Patient patient = patientRepository.findPatientByIdNumber(idNumber)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
 
         allergy.setPatient(patient);
         patient.getAllergies().add(allergy);
-        return ResponseEntity.status(HttpStatus.OK).body(patientFullDTOMapper.apply(patient));
+        return patientFullDTOMapper.apply(patient);
     }
 
     @Transactional
-    public ResponseEntity<PatientFullDTO> addConditionToPatient(String idNumber, Conditions condition) {
+    public PatientFullDTO addConditionToPatient(String idNumber, Conditions condition) {
         Patient patient = patientRepository.findPatientByIdNumber(idNumber)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
 
         condition.setPatient(patient);
         patient.getConditions().add(condition);
-        return ResponseEntity.status(HttpStatus.OK).body(patientFullDTOMapper.apply(patient));
+        return patientFullDTOMapper.apply(patient);
     }
 
     @Transactional
-    public ResponseEntity<PatientFullDTO> addImmunizationsToPatient(String idNumber, Immunization immunization) {
+    public PatientFullDTO addImmunizationsToPatient(String idNumber, Immunization immunization) {
         Patient patient = patientRepository.findPatientByIdNumber(idNumber)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
 
         immunization.setPatient(patient);
         patient.getImmunizations().add(immunization);
-        return ResponseEntity.status(HttpStatus.OK).body(patientFullDTOMapper.apply(patient));
+        return patientFullDTOMapper.apply(patient);
     }
 
     @Transactional
-    public ResponseEntity<PatientFullDTO> addTreatmentToPatient(String idNumber, Treatment treatment) {
+    public PatientFullDTO addTreatmentToPatient(String idNumber, Treatment treatment) {
         Patient patient = patientRepository.findPatientByIdNumber(idNumber)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient Not Found"));
 
         treatment.setPatient(patient);
         patient.getTreatments().add(treatment);
-        return ResponseEntity.status(HttpStatus.OK).body(patientFullDTOMapper.apply(patient));
+        return patientFullDTOMapper.apply(patient);
     }
 }

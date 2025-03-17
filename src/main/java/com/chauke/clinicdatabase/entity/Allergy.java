@@ -33,4 +33,9 @@ public class Allergy {
         this.allergyName = allergyName;
         this.severity = severity;
     }
+
+    public Allergy(String allergyName, AllergySeverity severity) {
+        this.allergyName = allergyName;
+        this.severity = severity;
+    }
 }

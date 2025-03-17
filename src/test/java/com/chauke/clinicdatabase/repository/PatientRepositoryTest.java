@@ -1,23 +1,26 @@
 package com.chauke.clinicdatabase.repository;
 
+import com.chauke.clinicdatabase.entity.Allergy;
 import com.chauke.clinicdatabase.entity.Patient;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class PatientRepositoryTest {
 
-    @Autowired
-    private PatientRepository patientRepository;
+    @Autowired private PatientRepository patientRepository;
 
     @BeforeEach
     void setUp() {
@@ -36,6 +39,7 @@ class PatientRepositoryTest {
     void findPatientByIdNumberTest() {
         String idNumber = "0304494990490";
         Optional<Patient> patient = patientRepository.findPatientByIdNumber(idNumber);
+        assertThat(patient).isNotNull();
         assertThat(patient.get().getIdNumber()).isEqualTo(idNumber);
     }
 
@@ -54,5 +58,13 @@ class PatientRepositoryTest {
 
         patientRepository.removePatientByIdNumber(idNumber);
         assertThat(patientRepository.existsByIdNumber(idNumber)).isFalse();
+    }
+
+    @Test
+    void findPatientWithDetailsByIdNumberTest() {
+        String idNumber = "0304494990490";
+        Optional<Patient> patient = patientRepository.findPatientByIdNumber(idNumber);
+        assertThat(patient).isNotNull();
+        assertThat(patient.get().getIdNumber()).isEqualTo(idNumber);
     }
 }
