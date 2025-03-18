@@ -88,6 +88,7 @@ public class PatientService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Transactional
     public PatientFullDTO getPatientWithDetails(String idNumber) {
         return patientRepository.findPatientWithDetailsByIdNumber(idNumber)
                 .map(patientFullDTOMapper)

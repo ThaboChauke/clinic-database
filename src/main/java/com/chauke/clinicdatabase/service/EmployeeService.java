@@ -6,6 +6,7 @@ import com.chauke.clinicdatabase.mapper.EmployeeDTOMapper;
 import com.chauke.clinicdatabase.dto.RegisterRequest;
 import com.chauke.clinicdatabase.entity.Employee;
 import com.chauke.clinicdatabase.repository.EmployeeRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,7 @@ public class EmployeeService {
         return authService.createAdmin(employee);
     }
 
+    @Transactional
     public ResponseEntity<HttpStatus> deleteEmployee(String email) {
         if (!employeeRepository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee Not Found");

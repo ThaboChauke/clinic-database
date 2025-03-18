@@ -3,10 +3,8 @@ package com.chauke.clinicdatabase.config;
 
 
 import com.chauke.clinicdatabase.entity.Employee;
-import com.chauke.clinicdatabase.entity.Patient;
 import com.chauke.clinicdatabase.enums.Roles;
 import com.chauke.clinicdatabase.repository.EmployeeRepository;
-import com.chauke.clinicdatabase.repository.PatientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.time.LocalDate;
 
 @Configuration
 @AllArgsConstructor
@@ -53,16 +49,10 @@ public class ApplicationConfig {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(PatientRepository pr, EmployeeRepository epr, PasswordEncoder passwordEncoder) {
+    CommandLineRunner commandLineRunner(EmployeeRepository epr, PasswordEncoder passwordEncoder) {
         return _ -> {
-            Patient george = new Patient("George", LocalDate.of(2001,5,21), "02549494998", "george@email.com",
-                    "20 sing street", "0304494990490", "Male");
-            pr.save(george);
-
             Employee linda = new Employee("Linda", "Simmons", "linda@admin.com", passwordEncoder.encode("pass123"), Roles.ADMIN);
-            Employee admin = new Employee("Paul", "Doe", "paul@email.com", passwordEncoder.encode("pass123"), Roles.GENERAL);
             epr.save(linda);
-            epr.save(admin);
         };
     }
 }

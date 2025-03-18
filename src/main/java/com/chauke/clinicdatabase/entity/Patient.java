@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity(name = "Patient")
 @Table(name = "patient")
@@ -53,16 +53,16 @@ public class Patient {
     private String gender;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Allergy> allergies;
+    private Set<Allergy> allergies;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Conditions> conditions;
+    private Set<Conditions> conditions;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Immunization> immunizations;
+    private Set<Immunization> immunizations;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Treatment> treatments;
+    private Set<Treatment> treatments;
 
     public Patient(String fullName, LocalDate dateOfBirth,
                    String phoneNumber, String email, String address, String idNumber, String gender) {

@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -175,10 +175,10 @@ class PatientServiceTest {
         Patient patient = new Patient("Jane Doe", LocalDate.of(2001, 5, 21),
                 "0123456789", "jane@gmail.com",
                 "23 Nowhere str", "7105162345084", "Female");
-        patient.setAllergies(new ArrayList<>());
-        patient.setConditions(new ArrayList<>());
-        patient.setImmunizations(new ArrayList<>());
-        patient.setTreatments(new ArrayList<>());
+        patient.setAllergies(new HashSet<>());
+        patient.setConditions(new HashSet<>());
+        patient.setImmunizations(new HashSet<>());
+        patient.setTreatments(new HashSet<>());
 
         Allergy allergy = new Allergy("Peanuts", AllergySeverity.Severe);
 
