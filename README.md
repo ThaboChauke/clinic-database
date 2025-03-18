@@ -27,16 +27,25 @@ git clone https://github.com/ThaboChauke/clinic-database.git
 cd clinic-database
 ```
 
-### **2. Configure the Environment**
-Create an `.env` file and add the necessary database credentials:
-```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=clinic_db
-DB_USER=youruser
-DB_PASSWORD=yourpassword
-JWT_SECRET=your_jwt_secret
-```
+[//]: # (### **2. Configure the Environment**)
+
+[//]: # (Create an `.env` file and add the necessary database credentials:)
+
+[//]: # (```env)
+
+[//]: # (DB_HOST=localhost)
+
+[//]: # (DB_PORT=5432)
+
+[//]: # (DB_NAME=clinic_db)
+
+[//]: # (DB_USER=youruser)
+
+[//]: # (DB_PASSWORD=yourpassword)
+
+[//]: # (JWT_SECRET=your_jwt_secret)
+
+[//]: # (```)
 
 ### **3. Run the Application**
 #### **Using Maven**
