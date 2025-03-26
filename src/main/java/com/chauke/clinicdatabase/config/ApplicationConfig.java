@@ -50,7 +50,7 @@ public class ApplicationConfig {
 
     @Bean
     CommandLineRunner commandLineRunner(EmployeeRepository epr, PasswordEncoder passwordEncoder) {
-        return _ -> {
+        return arg -> {
             Employee linda = new Employee("Linda", "Simmons", "linda@admin.com", passwordEncoder.encode("pass123"), Roles.ADMIN);
             epr.save(linda);
         };

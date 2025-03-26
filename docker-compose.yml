@@ -1,4 +1,17 @@
 services:
+  app:
+    build: .
+    container_name: springboot_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: ateking
+      SPRING_DATASOURCE_PASSWORD: password
+    networks:
+      - db
   db:
     container_name: postgres
     image: postgres
