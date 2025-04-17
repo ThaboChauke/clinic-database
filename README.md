@@ -27,35 +27,11 @@ git clone https://github.com/ThaboChauke/clinic-database.git
 cd clinic-database
 ```
 
-[//]: # (### **2. Configure the Environment**)
-
-[//]: # (Create an `.env` file and add the necessary database credentials:)
-
-[//]: # (```env)
-
-[//]: # (DB_HOST=localhost)
-
-[//]: # (DB_PORT=5432)
-
-[//]: # (DB_NAME=clinic_db)
-
-[//]: # (DB_USER=youruser)
-
-[//]: # (DB_PASSWORD=yourpassword)
-
-[//]: # (JWT_SECRET=your_jwt_secret)
-
-[//]: # (```)
-
-### **3. Run the Application**
-#### **Using Maven**
-```sh
-./mvnw spring-boot:run
-```
+### **2. Run the Application**
 
 #### **Using Docker**
 ```sh
-docker-compose up --build
+docker compose up --build
 ```
 
 ## 🧪 Running Tests
@@ -67,36 +43,6 @@ For integration tests:
 ```sh
 ./mvnw verify
 ```
-
-## 📜 API Endpoints
-### **Authentication**
-| Method | Endpoint        | Description         |
-|--------|---------------|---------------------|
-| POST   | `/auth/login`  | User login         |
-| POST   | `/auth/signup` | Create new account |
-
-### **Patients**
-| Method | Endpoint         | Description                   |
-|--------|-----------------|-------------------------------|
-| GET    | `/patients`      | Get all patients             |
-| POST   | `/patients`      | Add a new patient            |
-| GET    | `/patients/{id}` | Get patient by ID            |
-| PUT    | `/patients/{id}` | Update patient information   |
-| DELETE | `/patients/{id}` | Delete a patient             |
-
-### **Employees**
-| Method | Endpoint         | Description                   |
-|--------|-----------------|-------------------------------|
-| GET    | `/employees`      | Get all employees             |
-| POST   | `/employees`      | Add a new employee            |
-| GET    | `/employees/{id}` | Get employee by ID            |
-| PUT    | `/employees/{id}` | Update employee information   |
-| DELETE | `/employees/{id}` | Delete an employee           |
-
-## 📌 Future Enhancements
-- **Appointment Scheduling**
-- **Billing & Payment Integration**
-- **Advanced Analytics & Reporting**
 
 ## 📜 License
 This project is licensed under the **MIT License**.
